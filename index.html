@@ -12,17 +12,23 @@
         <div class="container">
             <div class="readyTodo">
                 <p>待辦事項</p>
-                <input type="text" placeholder="準備要做的任務">
-                <button type="button">新增</button>
+                <input type="text" placeholder="準備要做的任務" v-model="task">
+                <button type="button" @click="add">新增</button>
             </div>
             <div class="todoList">
                 <ul>
-                    <li></li>
+                    <li v-for="item in list" :key="item.id">
+                        <div class="left">
+                            <input type="checkbox">
+                            <label for="#">{{ item.task }}</label>
+                        </div>
+                        <i class="fa-solid fa-xmark" @click="deleteTask(item)"></i>
+                    </li>
                 </ul>
                 <div class="bottom">
-                    <p>全部有{{}}筆任務</p>
+                    <p>全部有 {{ quantity }} 筆任務</p>
                     <div class="check">
-                        <a href="#">全部</a>
+                        <a href="#" @click="">全部</a>
                         <a href="#">未完成</a>
                         <a href="#">已完成</a>
                         <a href="#">清除所有任務</a>
@@ -32,22 +38,36 @@
         </div> 
     </div>
    
-
+    <script src="https://kit.fontawesome.com/5ed6520c8d.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/vue@3"></script>
     <script>
-        const app = createApp({
+        const app = {
             data() {
                 return {
-
+                    list: [],
+                    task: '',
+                    quantity: 0,
                 }
             },
             methods: {
-
+                add() {
+                    this.list.push({
+                        id: this.list.length + 1,
+                        task: this.task,
+                    });
+                    this.quantity ++;
+                    this.task = '';
+                },
+                deleteTask(item) {
+                   let index = this.list.findIndex(obj => obj.id === item.id);
+                   this.list.splice(index, 1);
+                   this.quantity --;
+                }
             },
             mounted() {
 
             }
-        })
+        }
 
         Vue.createApp(app).mount('#app');
     </script>

@@ -40,12 +40,44 @@
     border-top-right-radius: .5rem;
     border-bottom-right-radius: .5rem ;
 }
-
-
-
-
-
-
+.todoList{
+    border-radius: .5rem;
+    margin-top: 2rem;
+    border: 1px solid #e0e0e0;
+}
+.todoList ul li{
+    list-style: none;
+    font-size: 1.8rem;
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.todoList ul li i{
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+.todoList ul li .left label{
+    font-size: 1.8rem;
+    margin-left: .5rem;
+}
+.bottom{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #e0e0e0;
+    padding: 1rem;
+}
+.bottom p{
+    font-size: 1.6rem;
+}
+.bottom .check a{
+    font-size: 1.6rem;
+    padding-left:  1rem;
+    color: #0080FF;
+}
 
 
 
