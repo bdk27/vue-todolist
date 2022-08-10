@@ -17,10 +17,10 @@
             </div>
             <div class="todoList">
                 <ul>
-                    <li v-for="item in list" :key="item.id">
+                    <li v-for="item in filterTodo" :key="item.id">
                         <div class="left">
-                            <input type="checkbox">
-                            <label for="#">{{ item.task }}</label>
+                            <input type="checkbox" @click="item.completed = !item.completed" :checked="item.completed">
+                            <label for="#" :class="item.completed ? 'completed':''">{{ item.task }}</label>
                         </div>
                         <i class="fa-solid fa-xmark" @click="deleteTask(item)"></i>
                     </li>
@@ -28,10 +28,10 @@
                 <div class="bottom">
                     <p>全部有 {{ quantity }} 筆任務</p>
                     <div class="check">
-                        <a href="#" @click="">全部</a>
-                        <a href="#">未完成</a>
-                        <a href="#">已完成</a>
-                        <a href="#">清除所有任務</a>
+                        <a href="#" @click.prevent="visibility = 'all'">全部</a>
+                        <a href="#" @click.prevent="visibility = 'active'">未完成</a>
+                        <a href="#" @click.prevent="visibility = 'completed'">已完成</a>
+                        <a href="#" @click.prevent="removeAll">清除所有任務</a>
                     </div>
                 </div>
             </div>
@@ -47,6 +47,7 @@
                     list: [],
                     task: '',
                     quantity: 0,
+                    visibility: 'all',
                 }
             },
             methods: {
@@ -54,6 +55,7 @@
                     this.list.push({
                         id: this.list.length + 1,
                         task: this.task,
+                        completed: false,
                     });
                     this.quantity ++;
                     this.task = '';
@@ -62,10 +64,25 @@
                    let index = this.list.findIndex(obj => obj.id === item.id);
                    this.list.splice(index, 1);
                    this.quantity --;
+                },
+                removeAll() {
+                    this.list = [];
+                    this.quantity = 0;
+                }
+            },
+            computed: {
+                filterTodo() {
+                    switch (this.visibility){
+                        case 'active':
+                            return this.list.filter((item) => !item.completed);
+                        case 'completed':
+                            return this.list.filter((item) => item.completed);
+                        default:
+                            return this.list;
+                    }
                 }
             },
             mounted() {
-
             }
         }
 

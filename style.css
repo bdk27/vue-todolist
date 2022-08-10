@@ -63,6 +63,9 @@
     font-size: 1.8rem;
     margin-left: .5rem;
 }
+.todoList ul li .left label.completed{
+    text-decoration: line-through;
+}
 .bottom{
     display: flex;
     align-items: center;
