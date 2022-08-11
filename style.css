@@ -59,6 +59,11 @@
     font-size: 1.8rem;
     cursor: pointer;
 }
+.editText{
+    font-size: 1.6rem;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+}
 .todoList ul li .left label{
     font-size: 1.8rem;
     margin-left: .5rem;

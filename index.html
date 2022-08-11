@@ -19,8 +19,11 @@
                 <ul>
                     <li v-for="item in filterTodo" :key="item.id">
                         <div class="left">
-                            <input type="checkbox" @click="item.completed = !item.completed" :checked="item.completed">
-                            <label for="#" :class="item.completed ? 'completed':''">{{ item.task }}</label>
+                            <input type="text" v-if="cacheId === item.id" v-model="cacheTask" @keyup.enter="doneEdit(item)" @keyup.esc="cancelEdit" class="editText">
+                            <div v-else>
+                                <input type="checkbox" @click="item.completed = !item.completed" :checked="item.completed">
+                                <label :class="item.completed ? 'completed':''" @dblclick="edit(item.id, item.task)" :for="item.id">{{ item.task }}</label>
+                            </div>
                         </div>
                         <i class="fa-solid fa-xmark" @click="deleteTask(item)"></i>
                     </li>
@@ -48,6 +51,8 @@
                     task: '',
                     quantity: 0,
                     visibility: 'all',
+                    cacheTask: '',
+                    cacheId: '',
                 }
             },
             methods: {
@@ -61,14 +66,32 @@
                     this.task = '';
                 },
                 deleteTask(item) {
-                   let index = this.list.findIndex(obj => obj.id === item.id);
+                   const index = this.list.findIndex(obj => obj.id === item.id);
                    this.list.splice(index, 1);
                    this.quantity --;
                 },
                 removeAll() {
                     this.list = [];
                     this.quantity = 0;
-                }
+                },
+                edit(id, task) {
+                    this.cacheTask = task;
+                    this.cacheId = id;
+                },
+                doneEdit(item) {
+                    if (!this.cacheTask) {
+                        return;
+                    }
+                    const index = this.list.findIndex(obj => obj.id === item.id);
+                    this.list[index].task = this.cacheTask;
+                    
+                    this.cacheTask = '';
+                    this.cacheId = '';
+                },
+                cancelEdit() {
+                    this.cacheTask = '';
+                    this.cacheId = '';
+                },
             },
             computed: {
                 filterTodo() {
